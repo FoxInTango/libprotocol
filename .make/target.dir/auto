@@ -1,0 +1,45 @@
+PLATFORM_ARCH         = $(shell uname -s)
+PLATFORM_ARCH_LINUX   = Linux
+PLATFORM_ARCH_DARWIN  = Darwin
+PLATFORM_ARCH_FREEBSD = FreeBSD
+
+#    Output Name Extensions
+TARGET_BIN_EXT = 
+TARGET_LIB_EXT_STATIC  =
+TARGET_LIB_EXT_DYNAMIC = 
+
+ifeq (${PLATFORM_ARCH},${PLATFORM_ARCH_DARWIN})
+    CC=gcc
+    PP=g++
+    AS=as
+    AR=ar
+    LD=ld
+    TARGET_BIN_EXT         :=
+    TARGET_LIB_EXT_STATIC  := .a
+    TARGET_LIB_EXT_DYNAMIC := .so
+endif
+ifeq (${PLATFORM_ARCH},${PLATFORM_ARCH_LINUX})
+    CC=gcc
+    PP=g++
+    AS=as
+    AR=ar
+    LD=ld
+    TARGET_BIN_EXT         :=
+    TARGET_LIB_EXT_STATIC  := .a
+    TARGET_LIB_EXT_DYNAMIC := .so
+    CONFIG_FLAGS_AS = -O3
+    CONFIG_FLAGS_CC = -O3 -c -fPIC -Wall -std=c11   -DPLATFORM_LINUX -DPLATFORM_LINUX_API
+    CONFIG_FLAGS_PP = -O3 -c -fPIC -Wall -std=c++11 -DPLATFORM_LINUX -DPLATFORM_LINUX_API -fvisibility=hidden
+    CONFIG_FLAGS_AR = -O3
+    CONFIG_FLAGS_LD = -O3
+endif
+ifeq (${PLATFORM_ARCH},${PLATFORM_ARCH_FreeBSD})
+    CC=gcc
+    PP=g++
+    AS=as
+    AR=ar
+    LD=ld
+    TARGET_BIN_EXT         := 
+    TARGET_LIB_EXT_STATIC  := .a
+    TARGET_LIB_EXT_DYNAMIC := .so
+endif
